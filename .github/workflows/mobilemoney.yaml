@@ -1,1 +1,42 @@
 name: MobileMoney Build and Deployment Workflow
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+      uses: actions/checkout@v2
+
+      - name: Install node modules 
+      run: npm install
+
+      - name: Run Build
+      run: npm run build
+
+      - name: Upload build file for Testing
+      uses: actions/upload-artifact@v2
+      with:
+        name: Build-Folder
+        path: ./build/
+
+      run: sleep 10
+
+  test:
+    needs: build
+    steps:
+      - name: Download build folder
+      uses: actions/download-artifact@v2
+      with:
+        name: Build-Folder
+
+      -name: Install node modules
+      run: npm install
+
+      -name: Test Package
+      run: npm run test
+
+      run: sleep 10
+
+ 
