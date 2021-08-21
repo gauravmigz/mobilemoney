@@ -25,6 +25,7 @@ jobs:
 
   test:
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - name: Download build folder
         uses: actions/download-artifact@v2
