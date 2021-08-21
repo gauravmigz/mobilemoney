@@ -81,5 +81,5 @@ jobs:
       - name: Push Files to surge server
         run: surge ./ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }} 
 
-      - run: sleep 15
+      - run: sleep 10
  
