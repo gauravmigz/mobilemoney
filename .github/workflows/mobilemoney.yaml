@@ -37,6 +37,6 @@ jobs:
       -name: Test Package
       run: npm run test
 
-      run: sleep 10
+      run: sleep 15
 
  
