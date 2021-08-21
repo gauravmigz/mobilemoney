@@ -27,16 +27,16 @@ jobs:
     needs: build
     steps:
       - name: Download build folder
-      uses: actions/download-artifact@v2
-      with:
-        name: Build-Folder
+        uses: actions/download-artifact@v2
+        with:
+          name: Build-Folder
 
-      -name: Install node modules
-      run: npm install
+      - name: Install node modules
+        run: npm install
 
-      -name: Test Package
-      run: npm run test
+      - name: Test Package
+        run: npm run test
 
-      run: sleep 15
+        run: sleep 15
 
  
