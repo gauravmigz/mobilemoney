@@ -130,7 +130,7 @@ jobs:
         if: always()
 
   deploy:
-    needs: coverage-test
+    needs: [oast-retire, npmaudit-check, trufflehog3_chek]
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
