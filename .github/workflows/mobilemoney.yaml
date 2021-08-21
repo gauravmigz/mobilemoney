@@ -63,6 +63,72 @@ jobs:
 
       - run: sleep 15
 
+  oast-retire:
+      runs-on: ubuntu-latest
+      needs: coverage-test
+      steps:
+        - name: Clone the Repository
+          uses: actions/checkout@v2
+
+        - name: Install Retire.JS
+          run: npm install -g retire
+
+        - name: Install Node Modules
+          run: npm install
+
+        - name: run Retire.JS Scan
+          run: | 
+            retire --outputformat json --outputpath retire_output.json
+          continue-on-error: true
+        
+        - name: Upload the Retire.JS Output file
+          uses: actions/upload-artifact@v2
+          with:
+            name: RetireJS-Output-File
+            path: retire_output.json
+          if: always()
+
+  npmaudit-check:
+    runs-on: ubuntu-latest
+    needs: coverage-test
+    steps:
+      - name: Clone the Repository
+        uses: actions/checkout@v2
+
+      - name: run npm audit Check
+        run: | 
+          npm audit --json > npm_audit_output.json
+        continue-on-error: true
+  
+      - name: Upload the Safety Output file
+        uses: actions/upload-artifact@v2
+        with:
+          name: npm-audit-File
+          path: npm_audit_output.json
+        if: always()
+
+  trufflehog3_check:
+    runs-on: ubuntu-latest
+    needs: coverage-test
+    steps:
+      - name: Clone the Repository
+        uses: actions/checkout@v2
+
+      - name: Install trufflehog3
+        run: pip install trufflehog3
+
+      - name: run trufflehog3
+        run: | 
+          trufflehog3 --no-history --format json --output trf3_report.json
+        continue-on-error: true
+      
+      - name: Upload the Retire.JS Output file
+        uses: actions/upload-artifact@v2
+        with:
+          name: Trufflehog-Output-File
+          path: trf3_report.json
+        if: always()
+
   deploy:
     needs: coverage-test
     runs-on: ubuntu-latest
