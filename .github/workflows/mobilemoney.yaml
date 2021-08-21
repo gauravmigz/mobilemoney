@@ -7,21 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repository
-      uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Install node modules 
-      run: npm install
+        run: npm install
 
       - name: Run Build
-      run: npm run build
+        run: npm run build
 
       - name: Upload build file for Testing
-      uses: actions/upload-artifact@v2
-      with:
-        name: Build-Folder
-        path: ./build/
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build-Folder
+          path: ./build/
 
-      run: sleep 10
+        run: sleep 10
 
   test:
     needs: build
