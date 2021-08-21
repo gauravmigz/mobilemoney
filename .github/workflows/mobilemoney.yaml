@@ -23,7 +23,7 @@ jobs:
 
       - run: sleep 10
 
-  test:
+  unit-test:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -43,4 +43,43 @@ jobs:
 
       - run: sleep 15
 
+  coverage-test:
+    needs: unit-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+
+      - name: Download build folder
+        uses: actions/download-artifact@v2
+        with:
+          name: Build-Folder
+
+      - name: Install node modules
+        run: npm install
+
+      - name: Test Package with coverage
+        run: npm test -- --coverage 
+
+      - run: sleep 15
+
+  deploy:
+    needs: coverage-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v2
+
+      - name: Download build folder
+        uses: actions/download-artifact@v2
+        with:
+          name: Build-Folder
+
+      - name: Install Surge
+        run: npm install -g surge
+
+      - name: Push Files to surge server
+        run: surge ./ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }} 
+
+      - run: sleep 15
  
