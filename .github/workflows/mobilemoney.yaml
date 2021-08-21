@@ -21,7 +21,7 @@ jobs:
           name: Build-Folder
           path: ./build/
 
-        run: sleep 10
+      - run: sleep 10
 
   test:
     needs: build
@@ -37,6 +37,6 @@ jobs:
       - name: Test Package
         run: npm run test
 
-        run: sleep 15
+      - run: sleep 15
 
  
